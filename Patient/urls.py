@@ -14,4 +14,5 @@ urlpatterns = [
     path('vital_register/',vital_register,name="vital_register"),
     path("visit_list/",visit_list,name="visit_list"),
     path("visit_register/",visit_register,name="visit_register"),
+    
 ]

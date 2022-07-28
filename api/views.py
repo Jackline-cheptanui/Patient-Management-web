@@ -1,14 +1,16 @@
-from django.shortcuts import render
-from django import Serializer
+from rest_framework import serializers
 from rest_framework import viewsets
-from web_Application.Patient.models import Patient, Visit, Vital
+from Patient.models import Patient, Visit, Vital
+from api.serializers import PatientSerializer, VisitSerializer, VitalSerializer
+
 class PatientViewSet(viewsets.ModelViewSet):
     queryset=Patient.objects.all()
-    serializer_class=PersonSerializer
+    serializer_class=PatientSerializer
 
 class VitalViewSet(viewsets.ModelViewSet):
     queryset=Vital.objects.all()
     serializer_class=VitalSerializer
+    
 class VisitViewSet(viewsets.ModelViewSet):
     queryset=Visit.objects.all()
     serializer_class=VisitSerializer
