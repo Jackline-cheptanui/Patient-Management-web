@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'Patient',
     'bootstrap_datepicker_plus',
     'bootstrap4',
+     'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

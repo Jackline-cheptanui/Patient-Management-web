@@ -1,6 +1,6 @@
-from statistics import mode
+from secrets import choice
 from django.db import models
-from django.forms import DateField, NumberInput, TextInput
+from django.forms import CharField, DateField, FloatField, NumberInput, TextInput
 from django.urls import clear_script_prefix
 
 class Patient(models.Model):
@@ -16,11 +16,36 @@ class Patient(models.Model):
     )
     gender=models.CharField(max_length=17,choices=gender_choice,null=True)
     
+
+class Vital(models.Model):
+    patient_name=models.CharField(max_length=15)
+    patient_visit_date=models.FloatField()
+    patient_height_in_center_metres=models.FloatField()
+    patient_weight_in_kg=models.FloatField()
+    patient_Bmi=models.FloatField()
     
-# class Vitals(models.Model):
-#         patient_name=models.ForeignKey(max_length=15,null=True,unique=True)
-#         visit_date=DateField()
-#         height=TextInput()
-#         weight=TextInput()
-#         BMI=NumberInput()
+    @property
+    def bmi(self):
+        height = self.patient_height_in_center_metres/100
+        bmi=self.patient_weight_in_kg/(height*height)
+        return bmi
+
+
+class DietChoices(models.TextChoices):
+    YES="Yes",
+    NO="No"
+    
+class Visit(models.Model):
+    patient_name=models.CharField(max_length=25)
+    visit_date=models.DateField()
+    general_health_choice=(
+        ("good","Good"),
+        ("poor","Poor"),
+ 
+    )
+    general_health=models.CharField(max_length=17,choices=general_health_choice,null=True)
+    comments=models.CharField(max_length=500,null=True)
+    weight_choice = models.CharField(max_length=17,choices=DietChoices.choices, default=DietChoices.NO)
+   
+  
     
