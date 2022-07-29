@@ -38,7 +38,7 @@
         
         <table id="Vitals">
            
-            <th>patient_number</th>
+            <th>patient_name</th>
             <th>patient_visit_date</th>
             <th>patient_height_in_center_metres</th>
             <th>patient_weight_in_kg</th>
@@ -46,7 +46,7 @@
             </tr>
             {% for vital in vitals%}
             <tr> 
-                <td>{{vital.patient_number}}</td>
+                <td>{{vital.patient_name}}</td>
                 <td>{{vital.patient_visit_date}}</td>
                 <td>{{vital.patient_height_in_center_metres}}</td>
                 <td>{{vital.atient_weight_in_kg}}</td>
@@ -56,8 +56,6 @@
         </table>
     </body>
     </html>
-    
-    
     
 
 

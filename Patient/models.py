@@ -1,11 +1,10 @@
-from secrets import choice
+import datetime
 from django.db import models
-from django.forms import CharField, DateField, FloatField, NumberInput, TextInput
-from django.urls import clear_script_prefix
+
 
 class Patient(models.Model):
-    patient_number=models.CharField(max_length=15,null=True,unique=True)
-    registration_date=models.DateField()
+    patient_number=models.BigAutoField(primary_key=True,unique=True)
+    registration_date=models.DateTimeField(null=True)
     first_name=models.CharField(max_length=17,null=True)
     last_name=models.CharField(max_length=20,null=True)
     date_of_birth=models.DateTimeField()
@@ -16,10 +15,12 @@ class Patient(models.Model):
     )
     gender=models.CharField(max_length=17,choices=gender_choice,null=True)
     
-
+    def __str__(self) :
+        return (f'{self.first_name } {self.last_name}')
+    
 class Vital(models.Model):
     patient_name=models.CharField(max_length=15)
-    patient_visit_date=models.FloatField()
+    patient_visit_date=models.DateField()
     patient_height_in_center_metres=models.FloatField()
     patient_weight_in_kg=models.FloatField()
     patient_Bmi=models.FloatField()
@@ -29,23 +30,20 @@ class Vital(models.Model):
         height = self.patient_height_in_center_metres/100
         bmi=self.patient_weight_in_kg/(height*height)
         return bmi
-
-
+    
 class DietChoices(models.TextChoices):
     YES="Yes",
     NO="No"
+
+class HealthChoice(models.TextChoices):
+        GOOD="Good",
+        POOR="Poor"
+ 
     
 class Visit(models.Model):
-    patient_name=models.CharField(max_length=25)
+    patient_name=models.ForeignKey(Patient,on_delete=models.CASCADE)
     visit_date=models.DateField()
-    general_health_choice=(
-        ("good","Good"),
-        ("poor","Poor"),
- 
-    )
-    general_health=models.CharField(max_length=17,choices=general_health_choice,null=True)
+    patient_general_health=models.CharField(max_length=17,choices=HealthChoice.choices,null=True)
     comments=models.CharField(max_length=500,null=True)
     weight_choice = models.CharField(max_length=17,choices=DietChoices.choices, default=DietChoices.NO)
-   
-  
     

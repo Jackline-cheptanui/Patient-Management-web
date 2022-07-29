@@ -16,10 +16,9 @@
          padding: 8px;
        }
        
-       #patients tr:nth-child(even){background-color: #f2f2f2be;}
+       #patients tr:nth-child(even){background-color: #f2f2f2;}
        
        #patients tr:hover {background-color: rgba(221, 221, 221, 0.192);}
-       
        #patientspatients th {
          padding-top: 12px;
          padding-bottom: 12px;
@@ -39,13 +38,13 @@
     <table id="Patients">
        
             <th>patient_number</th>
-            <th>Registration_date</th>
+            <th>registration_date</th>
             <th>First_name</th>
             <th>last_name</th>
             <th>date_of_birth</th>
             <th>gender</th>
         </tr>
-        {% for patient in patients %}
+        {% for patient in patients%}
         <tr>
             
              <td>{{patient.patient_number}}</td>

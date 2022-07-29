@@ -1,11 +1,12 @@
 
+from audioop import reverse
+
+from django.http import HttpResponse
 from .models import Patient, Visit, Vital
-from django.shortcuts import render
-from.forms import VisitForm
+from django.shortcuts import redirect, render
 from.forms import PatientRegistrationForms
-from.forms import VitalForm
-from bootstrap_datepicker_plus.widgets import DateTimePickerInput
-from django.views import generic
+
+from.forms import VitalRegistrationForms ,VisitRegistrationForms
 from .models import Patient
 
 def register_patient(request):
@@ -13,6 +14,7 @@ def register_patient(request):
         form=PatientRegistrationForms(request.POST,request.FILES,)
         if form.is_valid():
          form.save()
+         return redirect('patient_list')
         else:
             print(form.errors)
     else:
@@ -23,38 +25,53 @@ def patient_list(request):
     patients=Patient.objects.all()
     return render(request,"patient_list.html",{"patients":patients})  
 
-
-
 def vital_register(request):
     if request.method== "POST":
-        form=VitalForm(request.POST,request.FILES,)
+        form=VitalRegistrationForms(request.POST,request.FILES,)
         if form.is_valid():
          form.save()
+         return redirect('vital_list')
         else:
             print(form.errors)
     else:
-        form=VitalForm()
-    return render(request,"vital_register.html",{"form":form})
+        form=VitalRegistrationForms()
+        return render(request,"vital_register.html",{"form":form})
+    
 
 def vital_list(request):
     vitals=Vital.objects.all()
-    return render(request,"vital_list.html",{"vitals":vitals})  
-    
+    return render(request,"vital_list.html",{"vitals":vitals}) 
+def bmi(request):
+    height=request.POST.get(height)
+    weight=request.POST.get(weight)
+    weight=float(weight)
+    height=float(height)
+    BMI = weight/(height*height)
+    weight=str(weight)
+    height=str(height)
+    BMI=str(BMI)
+ 
+    return HttpResponse({"Your Height = + height + meter + Your Weight =+ weight + KG + Your BMI = + BMI" })
+
 
 def visit_list(request):
-   visits=Visit.objects.all()
-   return render(request,"visit_list.html",{"visits":visits})  
+    visits=Visit.objects.all()
+    return render(request,"visit_list.html",{"visits":visits})  
 
-
-
-        
 def visit_register(request):
     if request.method== "POST":
-        form=VisitForm(request.POST,request.FILES)
+        form=VisitRegistrationForms(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            return redirect('visit_list')
         else:
             print(form.errors)
     else:
-        form=VisitForm()
+        form=VisitRegistrationForms()
     return render(request,"visit_register.html", {"form":form})
+
+
+
+
+
+
